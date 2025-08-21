@@ -27,7 +27,16 @@ export default function AppShell({
     const [open, setOpen] = useState(defaultSidebarOpen);
 
     const navId = useId();
-    
+
+    const handleOpen = () => {
+        setOpen(true);
+        onSidebarStateChange?.(true);
+    }
+    const handleClose = () => {
+        setOpen(false);
+        onSidebarStateChange?.(false);
+    }
+
 
     return (
         <Box sx={{display: "grid", gridTemplateRows: "auto 1fr", height: "100dvh"}}>

@@ -45,3 +45,7 @@ Accessibility
 //This is useful when using framework which use server side render. It helps so that the website does not break
 //when comparing server side and client side render. If using something like math.random().
 //The ids would be different. 
+
+//How do we coordinate state changes between internal state and parent component? 
+//How do we update internal state? 
+//How do we notify parent of the state change? 
