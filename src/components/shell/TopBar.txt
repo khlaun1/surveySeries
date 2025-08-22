@@ -1,0 +1,12 @@
+What does a reusable app bar need to be flexible accross different pages? 
+title to show different page titles
+onMenuClick, how do we trigger the mobile sidebar drawer? 
+Where do page specific controls go, for example filters, search? TopMenuSlot
+Should the menu be visible on desktop? hideMenuButtonOnDesktop.
+
+Where should the drop down menu appear? anchorEl
+Is the menu open or closed? Boolean(anchorEl)
+
+How do we create a header that stays visible and appears above other elements?
+How do we keep the header visible when scrolling? position="sticky"
+How do we ensure the header appreas above the mobile drawer? zIndex
