@@ -19,7 +19,7 @@ interface UIProviderProps {
 
 export function UIProvider({ children }: UIProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [toasts, setToasts] = useState<Array<{ id: string; message: string; variant: string }>>([]);
+  const [toasts, setToasts] = useState<Array<{ id: string; message: string; variant: 'success' | 'error' | 'warning' | 'info' }>>([]);
 
   const showSpinner = () => setIsLoading(true);
   const hideSpinner = () => setIsLoading(false);
@@ -34,16 +34,20 @@ export function UIProvider({ children }: UIProviderProps) {
     }, 4000);
   };
 
+  const dismissToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
   const value: UIContextType = {
     isLoading,
     showSpinner,
     hideSpinner,
     enqueueToast,
+    toasts,
+    dismissToast,
   };
 
   return (
-    <UIContext.Provider value={value}>
-      {children}
-    </UIContext.Provider>
+    <UIContext.Provider value={value}>{children}</UIContext.Provider>
   );
 }

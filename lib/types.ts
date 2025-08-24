@@ -29,6 +29,8 @@ export interface UIContextType {
   showSpinner: () => void;
   hideSpinner: () => void;
   enqueueToast: (message: string, variant?: 'success' | 'error' | 'warning' | 'info') => void;
+  toasts?: Array<{ id: string; message: string; variant: 'success' | 'error' | 'warning' | 'info' }>;
+  dismissToast?: (id: string) => void;
 }
 
 // Data Context types
