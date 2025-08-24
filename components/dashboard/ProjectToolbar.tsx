@@ -3,69 +3,93 @@
 import { 
   Box, 
   TextField, 
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   InputAdornment,
-  IconButton
+  IconButton,
+  Typography,
+  Stack
 } from '@mui/material';
 import { Search, Clear } from '@mui/icons-material';
 import { useData } from '@/contexts/DataContext';
-import { ProjectStatus } from '@/lib/types';
 
 export default function ProjectToolbar() {
-  const { searchTerm, setSearchTerm, statusFilter, setStatusFilter } = useData();
+  const { searchTerm, setSearchTerm, selectedSeries, filteredProjects } = useData();
 
   const handleClearSearch = () => {
     setSearchTerm('');
   };
 
   return (
-    <Box 
-      sx={{ 
-        display: 'flex', 
-        gap: 2, 
-        alignItems: 'center',
-        py: 2 
-      }}
-    >
-      <TextField
-        placeholder="Search projects..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        size="small"
-        sx={{ minWidth: 300 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search color="action" />
-            </InputAdornment>
-          ),
-          endAdornment: searchTerm && (
-            <InputAdornment position="end">
-              <IconButton size="small" onClick={handleClearSearch}>
-                <Clear />
-              </IconButton>
-            </InputAdornment>
-          ),
+    <Box>
+      {/* Series Title and Project Count */}
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          mb: 3,
         }}
-      />
-      
-      <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel>Status Filter</InputLabel>
-        <Select
-          value={statusFilter || ''}
-          label="Status Filter"
-          onChange={(e) => setStatusFilter(e.target.value as ProjectStatus || null)}
-        >
-          <MenuItem value="">All Statuses</MenuItem>
-          <MenuItem value="Draft">Draft</MenuItem>
-          <MenuItem value="Published">Published</MenuItem>
-          <MenuItem value="Live">Live</MenuItem>
-          <MenuItem value="Closed">Closed</MenuItem>
-        </Select>
-      </FormControl>
+      >
+        <Stack>
+          <Typography 
+            variant="h2" 
+            component="h2"
+            sx={{ 
+              fontWeight: 700,
+              fontSize: '1.25rem',
+              color: '#000000',
+              mb: 0.5,
+            }}
+          >
+            {selectedSeries ? selectedSeries.name : 'Select a series'} ({filteredProjects.length})
+          </Typography>
+          <Typography 
+            variant="body2" 
+            color="text.secondary"
+            sx={{ fontSize: '0.875rem' }}
+          >
+            {selectedSeries ? `Manage projects for ${selectedSeries.name}` : 'Choose a survey series from the sidebar to view projects'}
+          </Typography>
+        </Stack>
+      </Box>
+
+      {/* Search Bar */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          placeholder="Search projects..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          fullWidth
+          sx={{ 
+            maxWidth: 400,
+            '& .MuiOutlinedInput-root': {
+              height: 40,
+            }
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search sx={{ color: '#666666', fontSize: 20 }} />
+              </InputAdornment>
+            ),
+            endAdornment: searchTerm && (
+              <InputAdornment position="end">
+                <IconButton 
+                  size="small" 
+                  onClick={handleClearSearch}
+                  sx={{ 
+                    p: 0.5,
+                    '&:hover': {
+                      backgroundColor: '#f3f4f6',
+                    }
+                  }}
+                >
+                  <Clear sx={{ fontSize: 18 }} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
     </Box>
   );
 }

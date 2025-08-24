@@ -12,6 +12,7 @@ import {
   Typography,
   Box
 } from '@mui/material';
+import { Search } from '@mui/icons-material';
 import { useData } from '@/contexts/DataContext';
 import { formatDate } from '@/lib/utils';
 import ProjectRowMenu from './ProjectRowMenu';
@@ -49,14 +50,49 @@ export default function ProjectsTable({
       <Box 
         sx={{ 
           display: 'flex', 
+          flexDirection: 'column',
           justifyContent: 'center', 
           alignItems: 'center', 
-          py: 8,
-          textAlign: 'center'
+          py: 12,
+          textAlign: 'center',
+          border: '2px solid #000000',
+          boxShadow: '4px 4px 0px #000000',
+          backgroundColor: '#ffffff',
+          minHeight: 300,
         }}
       >
-        <Typography variant="h6" color="text.secondary">
-          No results. Please try again.
+        <Box 
+          sx={{ 
+            width: 80, 
+            height: 80, 
+            borderRadius: '50%', 
+            backgroundColor: '#f3f4f6',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mb: 3,
+            border: '2px solid #000000',
+            boxShadow: '4px 4px 0px #000000',
+          }}
+        >
+          <Search sx={{ fontSize: 32, color: '#666666' }} />
+        </Box>
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            fontWeight: 700,
+            color: '#000000',
+            mb: 1,
+          }}
+        >
+          No results
+        </Typography>
+        <Typography 
+          variant="body1" 
+          color="text.secondary"
+          sx={{ maxWidth: 300 }}
+        >
+          Please try again.
         </Typography>
       </Box>
     );

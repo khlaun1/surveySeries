@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Stack, Divider } from "@mui/material";
+import { Stack, Box } from "@mui/material";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProjectToolbar from "@/components/dashboard/ProjectToolbar";
 import ProjectsTable from "@/components/dashboard/ProjectsTable";
@@ -89,7 +89,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={0}>
       <DashboardHeader onAddTerm={handleAddTerm} />
       
       <ProjectToolbar />
@@ -100,9 +100,9 @@ export default function DashboardPage() {
         onChangeStatus={handleChangeStatus}
       />
       
-      <Divider />
-      
-      <ProjectDetails />
+      <Box sx={{ mt: 4 }}>
+        <ProjectDetails />
+      </Box>
 
       {/* Add Project Dialog */}
       <AddEditProjectDialog

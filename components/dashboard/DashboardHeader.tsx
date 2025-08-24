@@ -4,7 +4,9 @@ import {
   Box, 
   Typography, 
   Button, 
-  Stack 
+  Stack,
+  Breadcrumbs,
+  Link
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { useData } from '@/contexts/DataContext';
@@ -17,34 +19,82 @@ export default function DashboardHeader({ onAddTerm }: DashboardHeaderProps) {
   const { selectedSeries } = useData();
 
   return (
-    <Box 
-      sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'flex-start',
-        pb: 2,
-        borderBottom: 1,
-        borderColor: 'divider'
-      }}
-    >
-      <Stack spacing={1}>
-        <Typography variant="h4" component="h1" fontWeight={600}>
-          Survey Dashboard
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          {selectedSeries ? selectedSeries.name : 'Select a series to view projects'}
-        </Typography>
-      </Stack>
-      
-      <Button
-        variant="contained"
-        startIcon={<Add />}
-        onClick={onAddTerm}
-        disabled={!selectedSeries}
-        sx={{ minWidth: 120 }}
+    <Box sx={{ mb: 3 }}>
+      {/* Breadcrumbs */}
+      <Breadcrumbs 
+        aria-label="breadcrumb" 
+        sx={{ 
+          mb: 2,
+          '& .MuiBreadcrumbs-separator': {
+            color: '#000000',
+            fontWeight: 600,
+          }
+        }}
       >
-        Add Term
-      </Button>
+        <Link 
+          underline="hover" 
+          color="primary" 
+          href="#" 
+          sx={{ 
+            fontWeight: 600,
+            fontSize: '0.875rem',
+            textDecoration: 'none',
+            '&:hover': {
+              textDecoration: 'underline',
+              textDecorationThickness: '2px',
+            }
+          }}
+        >
+          Survey Projects
+        </Link>
+      </Breadcrumbs>
+
+      {/* Main Header */}
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'flex-start',
+          mb: 2,
+        }}
+      >
+        <Stack spacing={1}>
+          <Typography 
+            variant="h1" 
+            component="h1" 
+            sx={{ 
+              fontWeight: 800,
+              fontSize: '2rem',
+              color: '#000000',
+              letterSpacing: '-0.025em'
+            }}
+          >
+            Survey Projects
+          </Typography>
+          <Typography 
+            variant="body1" 
+            color="text.secondary"
+            sx={{ fontWeight: 400 }}
+          >
+            All your survey projects are listed below
+          </Typography>
+        </Stack>
+        
+        <Button
+          variant="contained"
+          onClick={onAddTerm}
+          disabled={!selectedSeries}
+          startIcon={<Add />}
+          sx={{ 
+            minWidth: 140,
+            height: 40,
+            fontSize: '0.875rem',
+            fontWeight: 600,
+          }}
+        >
+          Add Term
+        </Button>
+      </Box>
     </Box>
   );
 }

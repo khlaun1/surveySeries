@@ -1,6 +1,6 @@
 # Survey Project Dashboard
 
-A modern, responsive React + TypeScript dashboard for managing Survey Series and Projects, built with Next.js and Material-UI.
+A bold, neobrutalist React + TypeScript dashboard for managing Survey Series and Projects, built with Next.js and Material-UI with a striking visual design.
 
 ## Features
 
@@ -13,12 +13,14 @@ A modern, responsive React + TypeScript dashboard for managing Survey Series and
 - **Responsive Design**: Mobile-friendly with drawer navigation
 
 ### UI Components
-- **Global App Shell**: Top app bar, sidebar, and main content area
+- **Neobrutalist Design**: Bold borders, sharp corners, and dramatic shadows
+- **Global App Shell**: Top app bar, sidebar, and main content area with brutalist styling
 - **Interactive Table**: Double-click to select projects, kebab menus for actions
-- **Modal Dialogs**: Add/edit project forms with validation
-- **Toast Notifications**: Success/error feedback for user actions
+- **Modal Dialogs**: Add/edit project forms with validation and bold visual design
+- **Toast Notifications**: Success/error feedback with neobrutalist styling
 - **Loading Spinner**: Global loading state for async operations
 - **Skip Links**: Accessibility support for keyboard navigation
+- **Hover Effects**: Interactive elements with shadow animations and transforms
 
 ### Business Rules
 - **Field Editing Restrictions**: Based on project status
@@ -36,7 +38,8 @@ A modern, responsive React + TypeScript dashboard for managing Survey Series and
 - **UI Library**: Material-UI (MUI) v6.1.9
 - **Styling Engine**: Emotion (required by MUI)
 - **State Management**: React Context API
-- **Styling**: MUI's sx prop and theme system
+- **Styling**: MUI's sx prop and custom neobrutalist theme system
+- **Typography**: Inter font family for modern, clean text
 - **Icons**: Material Design Icons
 
 ## Project Structure

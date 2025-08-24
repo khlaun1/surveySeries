@@ -5,6 +5,7 @@ import { ToastProvider } from "@/components/feedback/ToastProvider";
 import { UIProvider } from "@/contexts/UIContext";
 import { DataProvider } from "@/contexts/DataContext";
 import GlobalSpinner from "@/components/feedback/GlobalSpinner";
+import './globals.css';
 
 export const metadata: Metadata = { 
   title: "Survey Dashboard",

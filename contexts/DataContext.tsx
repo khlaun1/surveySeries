@@ -5,6 +5,7 @@ import { DataContextType, SurveySeries, SurveyProject, ProjectStatus } from '@/l
 import { seedData } from '@/lib/seed';
 import { generateId, sortByTermTitle } from '@/lib/utils';
 import { filterProjects } from '@/lib/filters';
+import { useUI } from '@/contexts/UIContext';
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
@@ -21,11 +22,13 @@ interface DataProviderProps {
 }
 
 export function DataProvider({ children }: DataProviderProps) {
+  const { showSpinner, hideSpinner } = useUI();
   const [series, setSeries] = useState<SurveySeries[]>(seedData);
   const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(seedData[0]?.id || null);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | null>(null);
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   // Computed values
   const selectedSeries = useMemo(() => 
@@ -55,57 +58,75 @@ export function DataProvider({ children }: DataProviderProps) {
   };
 
   const addProject = async (seriesId: string, projectData: Omit<SurveyProject, 'id' | 'createdAt'>) => {
-    const newProject: SurveyProject = {
-      ...projectData,
-      id: generateId(),
-      createdAt: new Date().toISOString(),
-    };
+    showSpinner();
+    try {
+      await delay(500);
+      const newProject: SurveyProject = {
+        ...projectData,
+        id: generateId(),
+        createdAt: new Date().toISOString(),
+      };
 
-    setSeries(prev => prev.map(s => 
-      s.id === seriesId 
-        ? { ...s, projects: [...s.projects, newProject] }
-        : s
-    ));
+      setSeries(prev => prev.map(s => 
+        s.id === seriesId 
+          ? { ...s, projects: [...s.projects, newProject] }
+          : s
+      ));
 
-    // Auto-select the new project
-    setSelectedProjectId(newProject.id);
+      // Auto-select the new project
+      setSelectedProjectId(newProject.id);
+    } finally {
+      hideSpinner();
+    }
   };
 
   const updateProject = async (projectId: string, updates: Partial<SurveyProject>) => {
-    setSeries(prev => prev.map(s => ({
-      ...s,
-      projects: s.projects.map(p => 
-        p.id === projectId ? { ...p, ...updates } : p
-      )
-    })));
+    showSpinner();
+    try {
+      await delay(400);
+      setSeries(prev => prev.map(s => ({
+        ...s,
+        projects: s.projects.map(p => 
+          p.id === projectId ? { ...p, ...updates } : p
+        )
+      })));
+    } finally {
+      hideSpinner();
+    }
   };
 
   const deleteProject = async (projectId: string) => {
-    // Find the project to delete and get the next one in sorted order
-    let nextProjectId: string | null = null;
-    
-    setSeries(prev => prev.map(s => {
-      const sortedProjects = sortByTermTitle(s.projects);
-      const projectIndex = sortedProjects.findIndex(p => p.id === projectId);
+    showSpinner();
+    try {
+      await delay(500);
+      // Find the project to delete and get the next one in sorted order
+      let nextProjectId: string | null = null;
       
-      if (projectIndex !== -1) {
-        // Get next project for auto-selection
-        if (projectIndex < sortedProjects.length - 1) {
-          nextProjectId = sortedProjects[projectIndex + 1].id;
-        } else if (projectIndex > 0) {
-          nextProjectId = sortedProjects[projectIndex - 1].id;
-        }
+      setSeries(prev => prev.map(s => {
+        const sortedProjects = sortByTermTitle(s.projects);
+        const projectIndex = sortedProjects.findIndex(p => p.id === projectId);
         
-        return {
-          ...s,
-          projects: s.projects.filter(p => p.id !== projectId)
-        };
-      }
-      return s;
-    }));
+        if (projectIndex !== -1) {
+          // Get next project for auto-selection
+          if (projectIndex < sortedProjects.length - 1) {
+            nextProjectId = sortedProjects[projectIndex + 1].id;
+          } else if (projectIndex > 0) {
+            nextProjectId = sortedProjects[projectIndex - 1].id;
+          }
+          
+          return {
+            ...s,
+            projects: s.projects.filter(p => p.id !== projectId)
+          };
+        }
+        return s;
+      }));
 
-    // Auto-select next project
-    setSelectedProjectId(nextProjectId);
+      // Auto-select next project
+      setSelectedProjectId(nextProjectId);
+    } finally {
+      hideSpinner();
+    }
   };
 
   const value: DataContextType = {

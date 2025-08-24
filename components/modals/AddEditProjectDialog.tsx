@@ -41,6 +41,10 @@ export default function AddEditProjectDialog({
     status: 'Draft' as ProjectStatus,
   });
 
+  // String mirrors for numeric inputs to avoid leading zero artifacts while typing
+  const [courseSectionsStr, setCourseSectionsStr] = useState('');
+  const [enrollmentsStr, setEnrollmentsStr] = useState('');
+
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Initialize form data when dialog opens
@@ -54,6 +58,8 @@ export default function AddEditProjectDialog({
           surveyTemplate: project.surveyTemplate,
           status: project.status,
         });
+        setCourseSectionsStr(String(project.courseSections ?? ''));
+        setEnrollmentsStr(String(project.enrollments ?? ''));
       } else {
         // Reset for add mode
         setFormData({
@@ -63,6 +69,8 @@ export default function AddEditProjectDialog({
           surveyTemplate: 'Default Survey Template',
           status: 'Draft',
         });
+        setCourseSectionsStr('');
+        setEnrollmentsStr('');
       }
       setErrors({});
     }
@@ -99,6 +107,18 @@ export default function AddEditProjectDialog({
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleNumericChange = (field: 'courseSections' | 'enrollments', valueStr: string) => {
+    // Accept empty string for UX; map to 0 in state
+    const sanitized = valueStr.replace(/[^0-9]/g, '');
+    const numeric = sanitized === '' ? 0 : Math.max(0, parseInt(sanitized, 10) || 0);
+    if (field === 'courseSections') setCourseSectionsStr(sanitized);
+    if (field === 'enrollments') setEnrollmentsStr(sanitized);
+    setFormData(prev => ({ ...prev, [field]: numeric }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
   const handleSave = () => {
     if (validateForm()) {
       onSave(formData);
@@ -120,7 +140,7 @@ export default function AddEditProjectDialog({
       fullWidth
     >
       <DialogTitle>
-        {mode === 'add' ? 'Add New Project' : 'Edit Project'}
+        {mode === 'add' ? 'Create Survey Project' : 'Edit Project'}
       </DialogTitle>
       
       <DialogContent>
@@ -142,9 +162,10 @@ export default function AddEditProjectDialog({
             <Grid item xs={6}>
               <TextField
                 label="Course Sections"
+                InputLabelProps={{ shrink: true }}
                 type="number"
-                value={formData.courseSections}
-                onChange={(e) => handleChange('courseSections', parseInt(e.target.value) || 0)}
+                value={courseSectionsStr}
+                onChange={(e) => handleNumericChange('courseSections', e.target.value)}
                 disabled={isFieldDisabled('courseSections')}
                 error={!!errors.courseSections}
                 helperText={errors.courseSections}
@@ -156,9 +177,10 @@ export default function AddEditProjectDialog({
             <Grid item xs={6}>
               <TextField
                 label="Enrollments"
+                InputLabelProps={{ shrink: true }}
                 type="number"
-                value={formData.enrollments}
-                onChange={(e) => handleChange('enrollments', parseInt(e.target.value) || 0)}
+                value={enrollmentsStr}
+                onChange={(e) => handleNumericChange('enrollments', e.target.value)}
                 disabled={isFieldDisabled('enrollments')}
                 error={!!errors.enrollments}
                 helperText={errors.enrollments}
@@ -170,6 +192,7 @@ export default function AddEditProjectDialog({
             <Grid item xs={12}>
               <TextField
                 label="Survey Template"
+                InputLabelProps={{ shrink: true }}
                 value={formData.surveyTemplate}
                 onChange={(e) => handleChange('surveyTemplate', e.target.value)}
                 disabled={isFieldDisabled('surveyTemplate')}
