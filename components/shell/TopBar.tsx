@@ -46,8 +46,10 @@ export default function TopBar({
   return (
     <AppBar
       position="sticky"
+      color="primary"
       sx={{
         zIndex: (t) => t.zIndex.drawer + 1, // stays above drawer edge
+        borderRadius: 0,
       }}
     >
       <Toolbar sx={{ gap: 1, minHeight: 64, px: 3 }}>
@@ -93,12 +95,22 @@ export default function TopBar({
         {TopMenusSlot}
         {/* Reports (plain dropdown, neobrutalist styling) */}
         <Button
-          variant="outlined"
-          size="small"
+          variant="contained"
+          color="secondary"
+          size="medium"
           onClick={(e) => setReportsAnchor(e.currentTarget)}
           sx={{ 
-            ml: 2, borderRadius: 0, border: '2px solid #000', color: '#000', bgcolor: '#fff',
-            boxShadow: '4px 4px 0px #000', '&:hover': { bgcolor: '#f3f4f6', transform: 'translate(-2px, -2px)', boxShadow: '6px 6px 0px #000' }
+            ml: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            borderRadius: 2,
+            height: 40,
+            px: 2.25,
+            fontSize: '0.95rem',
+            bgcolor: '#ffffff',
+            color: 'primary.main',
+            boxShadow: 'none',
+            '&:hover': { bgcolor: '#f5f5f5', boxShadow: 'none' }
           }}
           aria-haspopup="menu"
           aria-expanded={Boolean(reportsAnchor) ? 'true' : undefined}
@@ -111,23 +123,33 @@ export default function TopBar({
           onClose={() => setReportsAnchor(null)}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-          PaperProps={{ sx: { border: '2px solid #000', boxShadow: '6px 6px 0px #000', borderRadius: 0, overflow: 'hidden' } }}
+          PaperProps={{ sx: { borderRadius: 1 } }}
         >
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderBottom: '1px solid #000', px: 2 }}>INSTRUCTOR</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>INSTRUCTOR</ListSubheader>
           <MenuItem onClick={() => setReportsAnchor(null)}>My Courses</MenuItem>
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderTop: '1px solid #000', borderBottom: '1px solid #000', px: 2 }}>ADMIN</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>ADMIN</ListSubheader>
           <MenuItem onClick={() => setReportsAnchor(null)}>ClassRanked University</MenuItem>
           <MenuItem onClick={() => setReportsAnchor(null)}>College of Natural Sciences</MenuItem>
         </Menu>
 
         {/* Settings (plain dropdown, neobrutalist styling) */}
         <Button
-          variant="outlined"
-          size="small"
+          variant="contained"
+          color="secondary"
+          size="medium"
           onClick={(e) => setSettingsAnchor(e.currentTarget)}
           sx={{ 
-            ml: 1, borderRadius: 0, border: '2px solid #000', color: '#000', bgcolor: '#fff',
-            boxShadow: '4px 4px 0px #000', '&:hover': { bgcolor: '#f3f4f6', transform: 'translate(-2px, -2px)', boxShadow: '6px 6px 0px #000' }
+            ml: 1,
+            textTransform: 'none',
+            fontWeight: 600,
+            borderRadius: 2,
+            height: 40,
+            px: 2.25,
+            fontSize: '0.95rem',
+            bgcolor: '#ffffff',
+            color: 'primary.main',
+            boxShadow: 'none',
+            '&:hover': { bgcolor: '#f5f5f5', boxShadow: 'none' }
           }}
           aria-haspopup="menu"
           aria-expanded={Boolean(settingsAnchor) ? 'true' : undefined}
@@ -140,30 +162,35 @@ export default function TopBar({
           onClose={() => setSettingsAnchor(null)}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-          PaperProps={{ sx: { border: '2px solid #000', boxShadow: '6px 6px 0px #000', borderRadius: 0, overflow: 'hidden' } }}
+          PaperProps={{ sx: { borderRadius: 1 } }}
         >
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderBottom: '1px solid #000', px: 2 }}>INSTITUTION</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>INSTITUTION</ListSubheader>
           <MenuItem onClick={() => setSettingsAnchor(null)}>Reporting Hierarchy</MenuItem>
           <MenuItem onClick={() => setSettingsAnchor(null)}>Academic Units</MenuItem>
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderTop: '1px solid #000', borderBottom: '1px solid #000', px: 2 }}>DATA ENHANCEMENT</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>DATA ENHANCEMENT</ListSubheader>
           <MenuItem onClick={() => setSettingsAnchor(null)}>Attributes</MenuItem>
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderTop: '1px solid #000', borderBottom: '1px solid #000', px: 2 }}>OTHER</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>OTHER</ListSubheader>
           <MenuItem onClick={() => setSettingsAnchor(null)}>Activity Monitor</MenuItem>
         </Menu>
 
         {/* Survey Setup menu (grouped radios) */}
         <Button
-          variant="outlined"
-          size="small"
+          variant="contained"
+          color="secondary"
+          size="medium"
           onClick={(e) => setSurveyAnchor(e.currentTarget)}
           sx={{ 
-            ml: 1, 
-            borderRadius: 0, 
-            border: '2px solid #000000', 
-            color: '#000000', 
+            ml: 1,
+            textTransform: 'none',
+            fontWeight: 600,
+            borderRadius: 2,
+            height: 40,
+            px: 2.25,
+            fontSize: '0.95rem',
             bgcolor: '#ffffff',
-            boxShadow: '4px 4px 0px #000000',
-            '&:hover': { bgcolor: '#f3f4f6', transform: 'translate(-2px, -2px)', boxShadow: '6px 6px 0px #000000' }
+            color: 'primary.main',
+            boxShadow: 'none',
+            '&:hover': { bgcolor: '#f5f5f5', boxShadow: 'none' }
           }}
           aria-haspopup="menu"
           aria-expanded={Boolean(surveyAnchor) ? 'true' : undefined}
@@ -176,17 +203,9 @@ export default function TopBar({
           onClose={() => setSurveyAnchor(null)}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-          PaperProps={{
-            sx: {
-              border: '2px solid #000000',
-              boxShadow: '6px 6px 0px #000000',
-              borderRadius: 0,
-              overflow: 'hidden',
-              '& .MuiMenuItem-root': { borderRadius: 0 },
-            }
-          }}
+          PaperProps={{ sx: { borderRadius: 1 } }}
         >
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderBottom: '1px solid #000', px: 2 }}>SURVEY DISTRIBUTION</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>SURVEY DISTRIBUTION</ListSubheader>
           <MenuItem disableRipple disableGutters>
             <RadioGroup
               value={surveySetup}
@@ -198,7 +217,7 @@ export default function TopBar({
               <FormControlLabel value="survey-templates" control={<Radio />} label="Survey Templates" />
             </RadioGroup>
           </MenuItem>
-          <ListSubheader disableSticky sx={{ fontWeight: 800, color: '#000', bgcolor: '#f3f4f6', borderTop: '1px solid #000', borderBottom: '1px solid #000', px: 2 }}>TERM SETUP</ListSubheader>
+          <ListSubheader disableSticky sx={{ fontWeight: 600, color: 'text.secondary', px: 2 }}>TERM SETUP</ListSubheader>
           <MenuItem disableRipple disableGutters>
             <RadioGroup
               value={surveySetup}
