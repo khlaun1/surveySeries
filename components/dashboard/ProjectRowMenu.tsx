@@ -37,7 +37,7 @@ export default function ProjectRowMenu({
   const statusMenuOpen = Boolean(statusMenuAnchor);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // Prevent row selection
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -111,7 +111,6 @@ export default function ProjectRowMenu({
         </MenuItem>
       </Menu>
 
-      {/* Status change submenu */}
       <Menu
         anchorEl={statusMenuAnchor}
         open={statusMenuOpen}

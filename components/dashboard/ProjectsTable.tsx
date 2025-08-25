@@ -10,9 +10,10 @@ import {
   Paper, 
   Chip, 
   Typography,
-  Box
+  Box,
+  Button,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
+import { Search, Add } from '@mui/icons-material';
 import { useData } from '@/contexts/DataContext';
 import { formatDate } from '@/lib/utils';
 import ProjectRowMenu from './ProjectRowMenu';
@@ -22,14 +23,16 @@ interface ProjectsTableProps {
   onEditProject: (project: SurveyProject) => void;
   onDeleteProject: (project: SurveyProject) => void;
   onChangeStatus: (project: SurveyProject, newStatus: string) => void;
+  onAddTerm: () => void;
 }
 
 export default function ProjectsTable({ 
   onEditProject, 
   onDeleteProject, 
-  onChangeStatus 
+  onChangeStatus,
+  onAddTerm,
 }: ProjectsTableProps) {
-  const { filteredProjects, selectProject, selectedProjectId } = useData();
+  const { filteredProjects, selectProject, selectedProjectId, searchTerm, selectedSeries } = useData();
 
   const handleRowDoubleClick = (project: SurveyProject) => {
     selectProject(project.id);
@@ -46,6 +49,7 @@ export default function ProjectsTable({
   };
 
   if (filteredProjects.length === 0) {
+    const isSearching = !!searchTerm.trim();
     return (
       <Box 
         sx={{ 
@@ -53,47 +57,39 @@ export default function ProjectsTable({
           flexDirection: 'column',
           justifyContent: 'center', 
           alignItems: 'center', 
-          py: 12,
+          py: 10,
           textAlign: 'center',
-          border: '2px solid #000000',
-          boxShadow: '4px 4px 0px #000000',
-          backgroundColor: '#ffffff',
-          minHeight: 300,
+          minHeight: 240,
         }}
       >
-        <Box 
-          sx={{ 
-            width: 80, 
-            height: 80, 
-            borderRadius: '50%', 
-            backgroundColor: '#f3f4f6',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mb: 3,
-            border: '2px solid #000000',
-            boxShadow: '4px 4px 0px #000000',
-          }}
-        >
-          <Search sx={{ fontSize: 32, color: '#666666' }} />
-        </Box>
-        <Typography 
-          variant="h6" 
-          sx={{ 
-            fontWeight: 700,
-            color: '#000000',
-            mb: 1,
-          }}
-        >
-          No results
-        </Typography>
-        <Typography 
-          variant="body1" 
-          color="text.secondary"
-          sx={{ maxWidth: 300 }}
-        >
-          Please try again.
-        </Typography>
+        {isSearching ? (
+          <>
+            <Search sx={{ fontSize: 40, color: 'text.secondary', mb: 1 }} />
+            <Typography variant="h6" sx={{ fontWeight: 500, mb: 0.5 }}>
+              No results
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Try a different search.
+            </Typography>
+          </>
+        ) : (
+          <>
+            <Typography variant="h6" sx={{ fontWeight: 500, mb: 1 }}>
+              No terms yet
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {selectedSeries ? `Start by adding a term to ${selectedSeries.name}.` : 'Select a series to add a term.'}
+            </Typography>
+            <Button 
+              variant="contained" 
+              startIcon={<Add />}
+              onClick={onAddTerm}
+              disabled={!selectedSeries}
+            >
+              Add Term
+            </Button>
+          </>
+        )}
       </Box>
     );
   }

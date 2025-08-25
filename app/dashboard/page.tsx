@@ -98,13 +98,13 @@ export default function DashboardPage() {
         onEditProject={handleEditProject}
         onDeleteProject={handleDeleteProject}
         onChangeStatus={handleChangeStatus}
+        onAddTerm={handleAddTerm}
       />
       
       <Box sx={{ mt: 4 }}>
         <ProjectDetails />
       </Box>
 
-      {/* Add Project Dialog */}
       <AddEditProjectDialog
         open={addDialogOpen}
         onClose={handleCloseDialogs}
@@ -112,7 +112,6 @@ export default function DashboardPage() {
         mode="add"
       />
 
-      {/* Edit Project Dialog */}
       <AddEditProjectDialog
         open={editDialogOpen}
         onClose={handleCloseDialogs}
@@ -121,7 +120,6 @@ export default function DashboardPage() {
         mode="edit"
       />
 
-      {/* Delete Confirmation Dialog */}
       <ConfirmDialog
         open={deleteDialogOpen}
         onClose={handleCloseDialogs}

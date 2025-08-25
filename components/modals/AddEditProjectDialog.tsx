@@ -41,13 +41,11 @@ export default function AddEditProjectDialog({
     status: 'Draft' as ProjectStatus,
   });
 
-  // String mirrors for numeric inputs to avoid leading zero artifacts while typing
   const [courseSectionsStr, setCourseSectionsStr] = useState('');
   const [enrollmentsStr, setEnrollmentsStr] = useState('');
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Initialize form data when dialog opens
   useEffect(() => {
     if (open) {
       if (mode === 'edit' && project) {
@@ -61,7 +59,6 @@ export default function AddEditProjectDialog({
         setCourseSectionsStr(String(project.courseSections ?? ''));
         setEnrollmentsStr(String(project.enrollments ?? ''));
       } else {
-        // Reset for add mode
         setFormData({
           termTitle: '',
           courseSections: 0,
@@ -78,7 +75,6 @@ export default function AddEditProjectDialog({
 
   const handleChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
@@ -108,7 +104,6 @@ export default function AddEditProjectDialog({
   };
 
   const handleNumericChange = (field: 'courseSections' | 'enrollments', valueStr: string) => {
-    // Accept empty string for UX; map to 0 in state
     const sanitized = valueStr.replace(/[^0-9]/g, '');
     const numeric = sanitized === '' ? 0 : Math.max(0, parseInt(sanitized, 10) || 0);
     if (field === 'courseSections') setCourseSectionsStr(sanitized);

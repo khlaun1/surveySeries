@@ -1,4 +1,3 @@
-// components/shell/TopBar.tsx
 "use client";
 
 import * as React from "react";
@@ -23,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export type TopBarProps = {
   title?: string;
-  onMenuClick?: () => void;         // open mobile drawer
+  onMenuClick?: () => void;
   TopMenusSlot?: React.ReactNode;   
   hideMenuButtonOnDesktop?: boolean;
 };
@@ -48,12 +47,11 @@ export default function TopBar({
       position="sticky"
       color="primary"
       sx={{
-        zIndex: (t) => t.zIndex.drawer + 1, // stays above drawer edge
+        zIndex: (t) => t.zIndex.drawer + 1,
         borderRadius: 0,
       }}
     >
       <Toolbar sx={{ gap: 1, minHeight: 64, px: 3 }}>
-        {/* Mobile/Tablet*/}
         <Box
           sx={{
             display: { xs: "inline-flex", lg: hideMenuButtonOnDesktop ? "none" : "inline-flex" },
@@ -91,9 +89,7 @@ export default function TopBar({
           {title}
         </Typography>
 
-        {/* Left-aligned dropdowns */}
         {TopMenusSlot}
-        {/* Reports (plain dropdown, neobrutalist styling) */}
         <Button
           variant="contained"
           color="secondary"
@@ -132,7 +128,6 @@ export default function TopBar({
           <MenuItem onClick={() => setReportsAnchor(null)}>College of Natural Sciences</MenuItem>
         </Menu>
 
-        {/* Settings (plain dropdown, neobrutalist styling) */}
         <Button
           variant="contained"
           color="secondary"
@@ -173,7 +168,6 @@ export default function TopBar({
           <MenuItem onClick={() => setSettingsAnchor(null)}>Activity Monitor</MenuItem>
         </Menu>
 
-        {/* Survey Setup menu (grouped radios) */}
         <Button
           variant="contained"
           color="secondary"
@@ -230,12 +224,9 @@ export default function TopBar({
             </RadioGroup>
           </MenuItem>
         </Menu>
-        {/* Removed View/Settings/Help menus; these will live under profile menu */}
-
-        {/* Spacer */}
+        
+        
         <Box sx={{ flex: 1 }} />
-
-        {/* Profile menu (placeholder) */}
         <Tooltip title="Account settings">
           <IconButton 
             onClick={(e) => setAnchorEl(e.currentTarget)} 

@@ -1,4 +1,3 @@
-// components/shell/TopMenus.tsx
 "use client";
 
 import * as React from "react";
@@ -27,7 +26,6 @@ export default function TopMenus({ onChangeDensity, onChangeThemeMode }: TopMenu
 
   return (
     <Box sx={{ display: "inline-flex", gap: 1, alignItems: "center" }}>
-      {/* View Menu */}
       <Button
         variant="outlined"
         size="small"
@@ -57,7 +55,6 @@ export default function TopMenus({ onChangeDensity, onChangeThemeMode }: TopMenu
         </MenuItem>
       </Menu>
 
-      {/* Settings Menu */}
       <Button
         variant="outlined"
         size="small"

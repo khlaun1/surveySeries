@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import { DataContextType, SurveySeries, SurveyProject, ProjectStatus } from '@/lib/types';
 import { seedData } from '@/lib/seed';
-import { generateId, sortByTermTitle } from '@/lib/utils';
+import { generateId, sortByTermTitle, sortByName } from '@/lib/utils';
 import { filterProjects } from '@/lib/filters';
 import { useUI } from '@/contexts/UIContext';
 
@@ -28,9 +28,9 @@ export function DataProvider({ children }: DataProviderProps) {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | null>(null);
+  const [seriesSearchTerm, setSeriesSearchTerm] = useState('');
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  // Computed values
   const selectedSeries = useMemo(() => 
     series.find(s => s.id === selectedSeriesId) || null,
     [series, selectedSeriesId]
@@ -47,10 +47,15 @@ export function DataProvider({ children }: DataProviderProps) {
     return sortByTermTitle(filtered);
   }, [selectedSeries, searchTerm, statusFilter]);
 
-  // Actions
+  const filteredSeries = useMemo(() => {
+    if (!seriesSearchTerm) return sortByName(series);
+    const term = seriesSearchTerm.toLowerCase();
+    return sortByName(series.filter(s => s.name.toLowerCase().includes(term)));
+  }, [series, seriesSearchTerm]);
+
   const selectSeries = (seriesId: string) => {
     setSelectedSeriesId(seriesId);
-    setSelectedProjectId(null); // Clear project selection when switching series
+    setSelectedProjectId(null);
   };
 
   const selectProject = (projectId: string) => {
@@ -73,7 +78,6 @@ export function DataProvider({ children }: DataProviderProps) {
           : s
       ));
 
-      // Auto-select the new project
       setSelectedProjectId(newProject.id);
     } finally {
       hideSpinner();
@@ -99,7 +103,6 @@ export function DataProvider({ children }: DataProviderProps) {
     showSpinner();
     try {
       await delay(500);
-      // Find the project to delete and get the next one in sorted order
       let nextProjectId: string | null = null;
       
       setSeries(prev => prev.map(s => {
@@ -107,7 +110,6 @@ export function DataProvider({ children }: DataProviderProps) {
         const projectIndex = sortedProjects.findIndex(p => p.id === projectId);
         
         if (projectIndex !== -1) {
-          // Get next project for auto-selection
           if (projectIndex < sortedProjects.length - 1) {
             nextProjectId = sortedProjects[projectIndex + 1].id;
           } else if (projectIndex > 0) {
@@ -122,8 +124,49 @@ export function DataProvider({ children }: DataProviderProps) {
         return s;
       }));
 
-      // Auto-select next project
       setSelectedProjectId(nextProjectId);
+    } finally {
+      hideSpinner();
+    }
+  };
+
+  const addSeries = async (name: string) => {
+    showSpinner();
+    try {
+      await delay(400);
+      const newSeries: SurveySeries = {
+        id: generateId(),
+        name,
+        projects: [],
+      };
+      setSeries(prev => sortByName([...prev, newSeries]));
+      setSelectedSeriesId(newSeries.id);
+      setSelectedProjectId(null);
+    } finally {
+      hideSpinner();
+    }
+  };
+
+  const deleteSeries = async (seriesId: string) => {
+    showSpinner();
+    try {
+      await delay(400);
+      setSeries(prev => prev.filter(s => s.id !== seriesId));
+      if (selectedSeriesId === seriesId) {
+        const remaining = series.filter(s => s.id !== seriesId);
+        setSelectedSeriesId(remaining[0]?.id || null);
+        setSelectedProjectId(null);
+      }
+    } finally {
+      hideSpinner();
+    }
+  };
+
+  const updateSeries = async (seriesId: string, name: string) => {
+    showSpinner();
+    try {
+      await delay(300);
+      setSeries(prev => sortByName(prev.map(s => s.id === seriesId ? { ...s, name } : s)));
     } finally {
       hideSpinner();
     }
@@ -135,16 +178,22 @@ export function DataProvider({ children }: DataProviderProps) {
     selectedProjectId,
     searchTerm,
     statusFilter,
+    seriesSearchTerm,
     selectSeries,
     selectProject,
     setSearchTerm,
     setStatusFilter,
+    setSeriesSearchTerm,
     addProject,
     updateProject,
     deleteProject,
+    addSeries,
+    deleteSeries,
+    updateSeries,
     selectedSeries,
     selectedProject,
     filteredProjects,
+    filteredSeries,
   };
 
   return (

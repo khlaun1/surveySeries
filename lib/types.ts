@@ -3,10 +3,10 @@ export type ProjectStatus = "Draft" | "Published" | "Live" | "Closed";
 export interface SurveyProject {
   id: string;
   termTitle: string;
-  courseSections: number;   // default 0
-  enrollments: number;      // default 0
-  surveyTemplate: string;   // hardcoded string
-  createdAt: string;        // ISO
+  courseSections: number;
+  enrollments: number;
+  surveyTemplate: string;
+  createdAt: string;
   status: ProjectStatus;
 }
 
@@ -23,7 +23,6 @@ export const STATUS_TRANSITIONS: Record<ProjectStatus, ProjectStatus[]> = {
   Closed: [],
 };
 
-// UI Context types
 export interface UIContextType {
   isLoading: boolean;
   showSpinner: () => void;
@@ -33,27 +32,29 @@ export interface UIContextType {
   dismissToast?: (id: string) => void;
 }
 
-// Data Context types
 export interface DataContextType {
   series: SurveySeries[];
   selectedSeriesId: string | null;
   selectedProjectId: string | null;
   searchTerm: string;
   statusFilter: ProjectStatus | null;
+  seriesSearchTerm: string;
   
-  // Actions
   selectSeries: (seriesId: string) => void;
   selectProject: (projectId: string) => void;
   setSearchTerm: (term: string) => void;
   setStatusFilter: (status: ProjectStatus | null) => void;
+  setSeriesSearchTerm: (term: string) => void;
   
-  // CRUD
   addProject: (seriesId: string, project: Omit<SurveyProject, 'id' | 'createdAt'>) => Promise<void>;
   updateProject: (projectId: string, updates: Partial<SurveyProject>) => Promise<void>;
   deleteProject: (projectId: string) => Promise<void>;
+  addSeries: (name: string) => Promise<void>;
+  deleteSeries: (seriesId: string) => Promise<void>;
+  updateSeries: (seriesId: string, name: string) => Promise<void>;
   
-  // Computed
   selectedSeries: SurveySeries | null;
   selectedProject: SurveyProject | null;
   filteredProjects: SurveyProject[];
+  filteredSeries: SurveySeries[];
 }

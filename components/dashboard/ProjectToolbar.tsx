@@ -20,7 +20,6 @@ export default function ProjectToolbar() {
 
   return (
     <Box>
-      {/* Series Title and Project Count */}
       <Box 
         sx={{ 
           display: 'flex', 
@@ -52,10 +51,9 @@ export default function ProjectToolbar() {
         </Stack>
       </Box>
 
-      {/* Search Bar */}
       <Box sx={{ mb: 3 }}>
         <TextField
-          placeholder="Search projects..."
+          placeholder="Search Terms"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           fullWidth

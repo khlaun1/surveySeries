@@ -20,7 +20,6 @@ export default function DashboardHeader({ onAddTerm }: DashboardHeaderProps) {
 
   return (
     <Box sx={{ mb: 3 }}>
-      {/* Breadcrumbs */}
       <Breadcrumbs 
         aria-label="breadcrumb" 
         sx={{ 
@@ -34,7 +33,7 @@ export default function DashboardHeader({ onAddTerm }: DashboardHeaderProps) {
         <Link 
           underline="hover" 
           color="primary" 
-          href="#" 
+          href="/dashboard" 
           sx={{ 
             fontWeight: 600,
             fontSize: '0.875rem',
@@ -49,7 +48,6 @@ export default function DashboardHeader({ onAddTerm }: DashboardHeaderProps) {
         </Link>
       </Breadcrumbs>
 
-      {/* Main Header */}
       <Box 
         sx={{ 
           display: 'flex', 

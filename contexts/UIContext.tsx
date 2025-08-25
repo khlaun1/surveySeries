@@ -28,7 +28,6 @@ export function UIProvider({ children }: UIProviderProps) {
     const id = `toast-${Date.now()}`;
     setToasts(prev => [...prev, { id, message, variant }]);
     
-    // Auto-remove after 4 seconds
     setTimeout(() => {
       setToasts(prev => prev.filter(toast => toast.id !== id));
     }, 4000);

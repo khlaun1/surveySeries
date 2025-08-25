@@ -38,7 +38,6 @@ export default function AppShell({
 
     return (
         <Box sx={{display: "grid", gridTemplateRows: "auto 1fr", height: "100dvh"}}>
-            {/* Skip link for keyboard users */}
             <Box
             component="a"
             href={`#${idMain}`}
@@ -59,19 +58,16 @@ export default function AppShell({
                 Skip to content
             </Box>
             
-            {/* Header*/}
             <Box component="header" role="banner" sx={{ position: "sticky", top: 0, zIndex: theme.zIndex.appBar }}>
                {header ?? (renderHeader ? renderHeader({openSidebar: handleOpen, closeSidebar: handleClose}) : null)}
             </Box>
             
-            {/*Content Row*/}
             <Box
             sx={{
                 display: "grid",
                 gridTemplateColumns: isDesktop && sidebar? `${sidebarWidth}px 1fr` : "1fr",
                 minHeight: 0,
             }}>
-                {/*Sidebar*/}
                 {sidebar && (
                     <>
                        {isDesktop?(
@@ -98,7 +94,6 @@ export default function AppShell({
                     </>
                 )}
                 
-                {/*Main Content*/}
                 <Box
                 component="main" id={idMain} role="main" sx={{minWidth: 0,
                     minHeight: 0, overflow: "auto", px: disableGutters ? 0 : 2, py: disableGutters ? 0 : 2, 

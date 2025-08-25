@@ -18,7 +18,7 @@ export function canEditField(
     }
   }
   
-  return true; // Draft allows all edits
+  return true;
 }
 
 export function canEditProject(status: ProjectStatus): boolean {

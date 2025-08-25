@@ -1,12 +1,11 @@
 "use client";
 import { createTheme } from "@mui/material/styles";
 
-// Simple, Google-like Material theme (light, subtle elevation, rounded corners)
 export const theme = createTheme({
   cssVariables: true,
   palette: {
     mode: 'light',
-    primary: { main: '#1a73e8' }, // Google blue
+    primary: { main: '#1a73e8' },
     secondary: { main: '#5f6368' },
     background: { default: '#fafafa', paper: '#ffffff' },
   },
